@@ -31,12 +31,12 @@ namespace BuyABit
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddDatabase(Configuration);
-                     
+            services.SetConfigurationSettings(Configuration);
+            services.AddDatabase();                     
             services.AddIdentity();
-            services.AddJwtAuthentication(services.GetApplicationSettings(Configuration));
-          //  services.AddCaching(Configuration);
-            services.AddApplicationServices(Configuration);
+            services.AddJwtAuthentication();
+          //services.AddCaching(Configuration); //TODO: dockerize redis
+            services.AddApplicationServices();
             services.AddSwagger();
             services.AddCors();
         }

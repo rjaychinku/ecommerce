@@ -20,30 +20,33 @@ namespace BuyABit.Extensions
    
     public static class ServiceCollectionExtensions
     {
-        private static AppSettings appSettings;
-
-        public static AppSettings GetApplicationSettings(this IServiceCollection services,
+        private static AppSettings _appSettings;
+        private static ConnectionStrings _connectionStrings;
+        public static void SetConfigurationSettings(this IServiceCollection services,
             IConfiguration configuration)
         {
             IConfigurationSection applicationSettingsConfiguration = configuration.GetSection("ApplicationSettings");
             services.Configure<AppSettings>(applicationSettingsConfiguration);
-            appSettings = applicationSettingsConfiguration.Get<AppSettings>();
-            return appSettings;
+            _appSettings = applicationSettingsConfiguration.Get<AppSettings>();
+
+            IConfigurationSection connectionStringsConfiguration = configuration.GetSection("ConnectionStrings");
+            services.Configure<ConnectionStrings>(connectionStringsConfiguration);
+            _connectionStrings = connectionStringsConfiguration.Get<ConnectionStrings>();
         }
 
-        public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDatabase(this IServiceCollection services)
         {
             return services.AddDbContext<FullApplicationContext>(options => options
-                    .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                    .UseSqlServer(_connectionStrings.SQLConnection));
         }
 
-        public static IServiceCollection AddCaching(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCaching(this IServiceCollection services)
         {
             ConfigurationOptions config = new ConfigurationOptions
             {
                 EndPoints =
                     {
-                        { appSettings.RedisHostName, appSettings.RedisPort }
+                        { _appSettings.RedisHostName, _appSettings.RedisPort }
                     },
                                 CommandMap = CommandMap.Create(new HashSet<string>
                     { // EXCLUDE a few commands
@@ -76,10 +79,9 @@ namespace BuyABit.Extensions
             return services;
         }
 
-        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services,
-            AppSettings appSettings)
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
         {
-            byte[] key = Encoding.ASCII.GetBytes(appSettings.JSWSecret);
+            byte[] key = Encoding.ASCII.GetBytes(_appSettings.JSWSecret);
 
             services
                 .AddAuthentication(x =>
@@ -104,19 +106,13 @@ namespace BuyABit.Extensions
             return services;
         }
 
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-
             services.AddTransient<IIdentityService, IdentityService>();
-
             services.AddTransient<IDatabaseService, DatabaseService>();
-
             services.AddTransient<IApiProviderService, ApiProviderService>();
-
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
-
             services.AddTransient<AddressFactory, ConcreteAddressFactory>();
-
 
             return services;
         }
@@ -133,9 +129,9 @@ namespace BuyABit.Extensions
                     document.Info.TermsOfService = "None";
                     document.Info.Contact = new NSwag.OpenApiContact
                     {
-                        Name = "justChinks",
-                        Email = "justchinks@gmail.com",
-                        Url = "https://twitter.com/justchinks"
+                        Name = "BuyABit",
+                        Email = "BuyABit@example.com",
+                        Url = "https://twitter.com"
                     };
                     document.Info.License = new NSwag.OpenApiLicense
                     {
@@ -144,18 +140,6 @@ namespace BuyABit.Extensions
                     };
                 };
             });
-            //return services.AddOpenApiDocument(document =>
-            //    {
-
-            //        document.DocumentName = "BuyABit API";
-            //        document.PostProcess = d =>
-            //        {
-            //            d.Info.Title = "BuyABit API";
-            //            d.Info.Description = "REST interface for BuyABit Api.";
-            //            d.Info.Version = "v1";
-            //        };
-            //        document.OperationProcessors.Add(new ApiVersionProcessor { IncludedVersions = new[] { "1.0" } });
-            //    });
         }
     }
 }
