@@ -16,14 +16,11 @@ using StackExchange.Redis;
 
 namespace BuyABit.Extensions
 {
-
-   
     public static class ServiceCollectionExtensions
     {
         private static AppSettings _appSettings;
         private static ConnectionStrings _connectionStrings;
-        public static void SetConfigurationSettings(this IServiceCollection services,
-            IConfiguration configuration)
+        public static void SetConfigurationSettings(this IServiceCollection services, IConfiguration configuration)
         {
             IConfigurationSection applicationSettingsConfiguration = configuration.GetSection("ApplicationSettings");
             services.Configure<AppSettings>(applicationSettingsConfiguration);
@@ -48,15 +45,15 @@ namespace BuyABit.Extensions
                     {
                         { _appSettings.RedisHostName, _appSettings.RedisPort }
                     },
-                                CommandMap = CommandMap.Create(new HashSet<string>
+                CommandMap = CommandMap.Create(new HashSet<string>
                     { // EXCLUDE a few commands
                         "INFO", "CONFIG", "CLUSTER",
                         "PING", "ECHO", "CLIENT"
                     }, available: false),
-                                KeepAlive = 180,
-                                DefaultVersion = new Version(2, 8, 8)
-                            //    Password = "changeme"
-                            };          
+                KeepAlive = 180,
+                DefaultVersion = new Version(2, 8, 8)
+                //    Password = "changeme"
+            };
 
             ConnectionMultiplexer cm = ConnectionMultiplexer.Connect(config);
             services.AddSingleton<ICacheService, CacheService>();

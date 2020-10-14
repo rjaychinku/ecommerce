@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/justChinksOfficial/justChinksOfficial.csproj",
+                "${workspaceFolder}/BuyABit/BuyABit.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
