@@ -23,6 +23,7 @@ namespace BuyABit.Controllers
         private readonly IMapper _mapper;
         private readonly IIdentityService _identityService;
         private readonly AppSettings _appSettings;
+
         public ApplicationUserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
             IMapper mapper, IIdentityService identityService, IOptions<AppSettings> appSettings)
         {

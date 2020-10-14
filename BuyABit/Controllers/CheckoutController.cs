@@ -17,12 +17,12 @@ namespace BuyABit.Controllers
     {
         private AddressFactory _addressFactory;
         private IDatabaseService _databaseService;
-        private ICacheService __cachDB;
+        private ICacheService __cacheDB;
         public CheckoutController(AddressFactory addressFactory, ICacheService cacheDB, IDatabaseService databaseService)
         {
             _addressFactory = addressFactory;
             _databaseService = databaseService;
-            __cachDB = cacheDB;
+            __cacheDB = cacheDB;
         }
 
         // GET: api/CreateAddress
@@ -39,7 +39,7 @@ namespace BuyABit.Controllers
         [Route(nameof(GetCountries))]
         public async Task<object> GetCountries()
         {
-            var result = await __cachDB.GetCountriesAsync("1");
+            var result = await __cacheDB.GetCountriesAsync("1");
             return result;
         }
     }

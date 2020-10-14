@@ -30,16 +30,16 @@ namespace BuyABit.Extensions
             return await _dbcontext.ProductColours.OrderBy(c => c.DropDownOrder).ToListAsync();
         }
 
-                public async Task<bool> CreateBillingAddressAsync(BillingAddress Addresss)
+        public async Task<bool> CreateBillingAddressAsync(BillingAddress Addresss)
         {
-                await _dbcontext.BillingAddresses.AddAsync(Addresss);
-                return await _dbcontext.SaveChangesAsync() > 0;
+            await _dbcontext.BillingAddresses.AddAsync(Addresss);
+            return await _dbcontext.SaveChangesAsync() > 0;
         }
 
-                public async Task<bool> SaveShippingAddressAsync(BaseAddress address)
+        public async Task<bool> SaveShippingAddressAsync(BaseAddress address)
         {
-                await _dbcontext.AddAsync(address);
-                return await _dbcontext.SaveChangesAsync() > 0;
+            await _dbcontext.AddAsync(address);
+            return await _dbcontext.SaveChangesAsync() > 0;
         }
 
         public Task<bool> CreateShippingAddressAsync(ShippingAddress shippingAddress)
