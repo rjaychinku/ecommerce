@@ -1,11 +1,14 @@
-# AngularWebApi
-Angular 10 with .NET Core Web Api, 
-e-commerce 'template site' 
+# BuyABit e-commerce site built with:
+Angular 10 + .Net Core web api + SQL Server + Redis
 
-Partially functional!
-Login, Registration functional.
-Checkout still in progress.
-UI still in progress.
+## Completion status:
+###### Login, Registration functional.
+###### Checkout still in progress..
+###### UI still in progress..
+###### Dockerization in progress..
 
 # SQLExpress
-Ensure you have SQLExpress. Can be found here: https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+```
+Download here: https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+
+```
