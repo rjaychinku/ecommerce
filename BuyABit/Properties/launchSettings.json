@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/BuyABit",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:58336",
       "sslPort": 44389
@@ -12,6 +16,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT_PROD": "Production",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
@@ -19,6 +24,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT_PROD": "Production",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"

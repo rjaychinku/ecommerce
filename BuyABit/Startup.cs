@@ -35,7 +35,7 @@ namespace BuyABit
             services.AddDatabase();                     
             services.AddIdentity();
             services.AddJwtAuthentication();
-          //services.AddCaching(Configuration); //TODO: dockerize redis
+            services.AddCaching(); //TODO: dockerize redis
             services.AddApplicationServices();
             services.AddSwagger();
             services.AddCors();
@@ -58,7 +58,7 @@ namespace BuyABit
 
             //Auto create DB and tables, load test data and configure data
             databaseInitializer.SeedDatabaseDataAsync();
-          //  databaseInitializer.SeedCacheDataAsync();
+            databaseInitializer.SeedCacheDataAsync();
        
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -26,15 +26,15 @@ namespace BuyABit.Tests.ControllerTests
         public async Task GetAll_ShouldReturnAllProductsAsync()
         {
             //Arrange
-            var allProducts = _fixture.FullContext.Products.ToList();
+            List<Product> allProducts = _fixture.FullContext.Products.ToList();
             _fixture.DatabaseServiceMoq.Setup(x => x.GetAllProductsAsync())
                                         .ReturnsAsync(allProducts);
 
             //Act
             _controllerUnderTest = new ProductController(_fixture.DatabaseServiceMoq.Object);
-            var result = await _controllerUnderTest.GetAll();
+            IEnumerable<Product> result = await _controllerUnderTest.GetAll();
 
-            //Asset
+            //Assert
             Assert.Equal(result.Count(), allProducts.Count);
         }
     }

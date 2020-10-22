@@ -56,7 +56,7 @@ namespace BuyABit.Extensions
             };
 
             ConnectionMultiplexer cm = ConnectionMultiplexer.Connect(config);
-            services.AddSingleton<ICacheService, CacheService>();
+      
             return services.AddSingleton<IConnectionMultiplexer>(cm);
         }
 
@@ -110,7 +110,7 @@ namespace BuyABit.Extensions
             services.AddTransient<IApiProviderService, ApiProviderService>();
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
             services.AddTransient<AddressFactory, ConcreteAddressFactory>();
-
+            services.AddSingleton<ICacheService, CacheService>();
             return services;
         }
 

@@ -26,7 +26,7 @@ namespace BuyABit.Tests.RepositoryTests
 
             //Act
             var repositoryUnderTest = new DatabaseService(_fixture.FullContext);
-            var allReturnedProducts = await repositoryUnderTest.GetAllProductsAsync();
+            IEnumerable<Product> allReturnedProducts = await repositoryUnderTest.GetAllProductsAsync();
 
             //Assert
             Assert.Equal(_fixture.FullContext.Products.Count(), allReturnedProducts.Count());

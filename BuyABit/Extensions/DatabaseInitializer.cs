@@ -11,14 +11,19 @@ namespace BuyABit.Extensions
     public class DatabaseInitializer : IDatabaseInitializer
     {
         private FullApplicationContext dbContext;
-        public DatabaseInitializer(FullApplicationContext dbContexInjected)
+        private IApiProviderService apiProviderService;
+        private ICacheService _cacheDB;
+        public DatabaseInitializer(FullApplicationContext dbContexInjected, IApiProviderService apiServiceInjected
+                                   , ICacheService cacheService)
         {
             dbContext = dbContexInjected;
+            apiProviderService = apiServiceInjected;
+            _cacheDB = cacheService;
         }
 
         public void SeedDatabaseDataAsync()
         {
-            //dbContext.Database.EnsureCreated();
+          //  dbContext.Database.EnsureCreated();
             dbContext.Database.Migrate();
             if (!dbContext.Products.Any())
             {
@@ -131,10 +136,15 @@ namespace BuyABit.Extensions
                      }
                 };
 
-
                 dbContext.ProductColours.AddRange(dummyColours);
                 dbContext.SaveChanges();
             }
+        }
+        public async Task SeedCacheDataAsync()
+        {
+            var res = await apiProviderService.GetAllCountriesDataAsync();
+            bool yes = await _cacheDB.SaveCountriesAsync("1", res);
+            var result = await _cacheDB.GetCountriesAsync("1");
         }
     }
 }
