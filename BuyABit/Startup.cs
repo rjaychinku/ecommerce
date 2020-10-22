@@ -35,7 +35,7 @@ namespace BuyABit
             services.AddDatabase();                     
             services.AddIdentity();
             services.AddJwtAuthentication();
-            services.AddCaching(); //TODO: dockerize redis
+            services.AddCaching();
             services.AddApplicationServices();
             services.AddSwagger();
             services.AddCors();

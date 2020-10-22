@@ -2,8 +2,9 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 # BEGIN MODIFICATION - Node is needed for development (but not production)
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install --assume-yes nodejs
+RUN npm install @angular/cli -g
 # END MODIFICATION
 WORKDIR /app
 EXPOSE 80
