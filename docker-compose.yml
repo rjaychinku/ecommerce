@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   buyabit:
-    image: ${DOCKER_REGISTRY-}buyabit
+    image: buyabit
     container_name: buyabit-app
     build:
       context: .

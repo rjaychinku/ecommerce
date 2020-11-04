@@ -16,7 +16,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT_PROD": "Production",
+        "ASPNETCORE_ENVIRONMENT_PROD": "Productiona",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
