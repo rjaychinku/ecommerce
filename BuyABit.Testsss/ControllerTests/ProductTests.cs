@@ -1,14 +1,9 @@
-﻿using BuyABit.Extensions;
-using BuyABit.Models;
-using BuyABit.Testsss;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using BuyABit.Testsss;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using System.Threading.Tasks;
 using Moq;
-using BuyABit.Interfaces;
 using BuyABit.Controllers;
 
 namespace BuyABit.Tests.ControllerTests

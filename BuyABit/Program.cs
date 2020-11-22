@@ -13,6 +13,13 @@ namespace BuyABit
     {
         public static void Main(string[] args)
         {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                                .AddJsonFile("appsettings.json")
+                                .AddJsonFile("appsettings.Development.json")
+                                .AddJsonFile("appsettings.Prod.json")
+                                .AddEnvironmentVariables()
+                                .Build();
+
             CreateHostBuilder(args).Build().Run();
         }
 

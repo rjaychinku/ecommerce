@@ -9,8 +9,7 @@
   border-style: solid;
   left: 0;
   max-width: 300px;
-  overflow: auto;
-  white-space: nowrap;
+
 }
 
 #CartLink :hover
