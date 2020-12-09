@@ -10,8 +10,8 @@ import { IProductSize } from '../Interfaces/IProductSize';
   providedIn: 'root'
 })
 export class ProductService {
-  cartProduct: ICartProduct[] = [];
-  private messageProduct:  BehaviorSubject<ICartProduct[]> = new BehaviorSubject<ICartProduct[]>(this.cartProduct);
+  cartProduct: IProduct[] = [];
+  private messageProduct:  BehaviorSubject<IProduct[]> = new BehaviorSubject<IProduct[]>(this.cartProduct);
   getMessage = this.messageProduct.asObservable();
 
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string)
@@ -40,7 +40,7 @@ export class ProductService {
     return this.http.get<IProductColour[]>(this.baseUrl + 'Product/GetAllColours');
   }
 
-  setMessage(cartItems: ICartProduct[] ) {
+  setMessage(cartItems: IProduct[] ) {
     this.messageProduct.next(cartItems);
   }
 }

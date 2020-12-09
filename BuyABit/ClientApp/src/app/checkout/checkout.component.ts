@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../shared/product.service';
 import { ICartProduct } from '../Interfaces/ICartProduct';
 import { UseraccountService } from '../shared/useraccount.service';
+import { IProduct } from '../Interfaces/IProduct';
 
 @Component({
   selector: 'app-checkout',
@@ -9,44 +10,46 @@ import { UseraccountService } from '../shared/useraccount.service';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  sharedCartProduct: ICartProduct[] = [];
+  sharedCartProduct: IProduct[] = [];
 
   constructor(private productService: ProductService, public useraccountService: UseraccountService,) { }
 
   ngOnInit() {
     this.useraccountService.checkoutFormModel.reset();
 
-    this.productService.getMessage.subscribe(messageProduct => {
+    this.productService.getMessage.subscribe(messageProduct  => {
       this.sharedCartProduct = messageProduct;
     });
   }
 
   newMessage() {
-      const cartProduct: ICartProduct = {
-      Name: "Testing!",
-      Description: "A teswt desc",
-      Price: 76,
-      Size: "XS",
-      ProductId: 3,
-      Quantity: 3
+      let cartProduct: IProduct = {
+      name: "Testing!!!",
+      description: "A teswt desc",
+      price: 76,
+      size: "XS",
+      productId: "3",
+      quantity: 3,
+      colour: "purple"
     };
 
-    console.log(cartProduct.Name);
+    console.log(cartProduct.name);
     this.sharedCartProduct.push(cartProduct);
-    this.productService.setMessage( this.sharedCartProduct);
+    this.productService.setMessage(this.sharedCartProduct);
   }
 
   checkout() {
-    const cartProduct: ICartProduct = {
-    Name: "Testing!",
-    Description: "A teswt desc",
-    Price: 76,
-    Size: "XS",
-    ProductId: 3,
-    Quantity: 3
+    let cartProduct: IProduct = {
+      name: "Testing two!",
+      description: "A testing description",
+      price: 180,
+      size: "M",
+      productId: "4",
+      quantity: 5,
+      colour: "orange"
   };
 
-  console.log(cartProduct.Name);
+  console.log(cartProduct.name);
   this.sharedCartProduct.push(cartProduct);
   this.productService.setMessage( this.sharedCartProduct);
 }

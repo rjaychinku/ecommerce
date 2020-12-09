@@ -22,7 +22,7 @@ namespace BuyABit.Extensions
 
         public async Task<IEnumerable<ProductSize>> GetProductSizesAsync()
         {
-            return (IEnumerable<ProductSize>)await _dbcontext.ProductSizes.OrderBy(c => c.DropDownOrder).ToListAsync();
+            return await _dbcontext.ProductSizes.OrderBy(c => c.DropDownOrder).ToListAsync();
         }
 
         public async Task<IEnumerable<ProductColour>> GetProductColoursAsync()

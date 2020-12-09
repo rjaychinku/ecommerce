@@ -26,7 +26,7 @@ export class ProductComponent implements OnInit {
   products: IProduct[] = [];
   sizes: IProductSize[] = [];
   colours: IProductColour[] = [];
-  sharedCartProduct: ICartProduct[] = [];
+  sharedCartProduct: IProduct[] = [];
   cartproducts: IProduct[] = [];
   totalCost : number;
   selectedSizeValue = {};
@@ -49,7 +49,8 @@ export class ProductComponent implements OnInit {
 
       //share
       this.productService.getMessage.subscribe(messageProduct => {
-        this.sharedCartProduct = messageProduct;
+       // this.sharedCartProduct = messageProduct;
+        this.cartproducts = messageProduct;
       });
 
     }, error => console.error(error));
@@ -89,13 +90,15 @@ export class ProductComponent implements OnInit {
     //const tr = JSON.parse(JSON.stringify(cartproduct)); //deep copy
     var arrSize = this.cartproducts.push(newCartProduct);
     this.totalCost += newCartProduct.price;
+
+    this.productService.setMessage(this.cartproducts);
     console.log('ADD: The cart has ' + arrSize + ' items in it.');
   }
 
   removeFromCart(cartproduct: IProduct) {
     this.cartproducts =  this.cartproducts.filter(c => c !== cartproduct);
     this.totalCost -= cartproduct.price;
- //   this.productService.setMessage(this.cartproducts);
+    this.productService.setMessage(this.cartproducts);
     console.log('DELETE: The cart has ' + this.cartproducts.length + ' items in it now.');
   }
 
