@@ -78,7 +78,7 @@ namespace BuyABit.Extensions
 
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
         {
-            byte[] key = Encoding.ASCII.GetBytes(_appSettings.JSWSecret);
+            byte[] key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
 
             services
                 .AddAuthentication(x =>

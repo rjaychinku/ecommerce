@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BuyABit.Interfaces;
-using BuyABit.Models;
 using BuyABit.Models.AddressFactory;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BuyABit.Controllers
 {
@@ -25,7 +19,7 @@ namespace BuyABit.Controllers
             __cacheDB = cacheDB;
         }
 
-        // GET: api/CreateAddress
+        // GET: /Checkout/CreateAddress
         [HttpPost]
         [Route(nameof(CreateAddress))]
         public async Task<bool> CreateAddress(BaseAddress address)
@@ -34,12 +28,12 @@ namespace BuyABit.Controllers
            return result;
         }
 
-        // GET: api/GetCountries
+        // GET: /Checkout/GetCountries
         [HttpGet]
         [Route(nameof(GetCountries))]
         public async Task<object> GetCountries()
         {
-            var result = await __cacheDB.GetCountriesAsync("1");
+            object result = await __cacheDB.GetCountriesAsync("1");
             return result;
         }
     }

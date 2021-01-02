@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BuyABit.Interfaces;
 using BuyABit.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace BuyABit.Controllers
 {
@@ -20,28 +18,52 @@ namespace BuyABit.Controllers
             _dbcontext = dbcontext;
         }
 
-        // GET: api/Product
+        // GET: /Product/GetAll
         [HttpGet]
         [Route(nameof(GetAll))]
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _dbcontext.GetAllProductsAsync();
+            try
+            {
+                return await _dbcontext.GetAllProductsAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "The application failed to GetAll products.");
+                return null;
+            }
         }
 
-        // GET: api/Product
+        // GET: /Product/GetAllSizes
         [HttpGet]
         [Route(nameof(GetAllSizes))]
         public async Task<IEnumerable<ProductSize>> GetAllSizes()
         {
-            return await _dbcontext.GetProductSizesAsync();
+            try
+            {
+                return await _dbcontext.GetProductSizesAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "The application failed to GetAllSizes.");
+                return null;
+            }
         }
 
-        // GET: api/Product
+        // GET: /Product/GetAllColours
         [HttpGet]
         [Route(nameof(GetAllColours))]
         public async Task<IEnumerable<ProductColour>> GetAllColours()
         {
-            return await _dbcontext.GetProductColoursAsync();
+            try
+            {
+                return await _dbcontext.GetProductColoursAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "The application failed to GetAllColours.");
+                return null;
+            } 
         }
     }
 }

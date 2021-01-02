@@ -17,6 +17,14 @@ import { FooterComponent } from './footer/footer.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ProductComponent } from './product/product.component';
 import { UseraccountComponent } from './useraccount/useraccount.component';
+import { MycustomInterceptor } from './authentication/mycustom.interceptor';
+import { ErrorInterceptor } from './authentication/error.interceptor';
+import { AuthGuard } from './authentication/auth.guard';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function getToken() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -40,16 +48,26 @@ import { UseraccountComponent } from './useraccount/useraccount.component';
     //}),
     FormsModule,
     ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+         tokenGetter: getToken,
+        allowedDomains: ["https://localhost:5001/"],
+        disallowedRoutes: ["https://localhost:5002/"],
+      },
+    }),
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: HomeComponent, pathMatch: 'full'},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'checkout', component: CheckoutComponent },
+      { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
       { path: 'account', component: UseraccountComponent },
       { path: 'home', component: HomeComponent },
+          // otherwise redirect to home
+      { path: '**', redirectTo: '' }
     ])
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: MycustomInterceptor, multi: true }],
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

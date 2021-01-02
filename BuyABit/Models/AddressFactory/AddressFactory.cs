@@ -57,7 +57,7 @@ namespace BuyABit.Models.AddressFactory
 
 
     /// <summary>
-    /// A 'ConcreteCreator' class
+    /// A 'Concrete Creator' class
     /// </summary>
     public class ConcreteAddressFactory : AddressFactory
     {

@@ -46,5 +46,11 @@ namespace BuyABit.Extensions
         {
             throw new System.NotImplementedException();
         }
+
+        public bool UpdateUser(ApplicationUser user)
+        {
+            _dbcontext.Update(user);
+            return _dbcontext.SaveChanges() > 0;
+        }
     }
 }

@@ -27,6 +27,7 @@ export class UseraccountComponent implements OnInit {
       (result: any) => {
         console.log("succeeded Login!!");
         this.useraccountService.saveToken(result['token']);
+        this.useraccountService.saveRefreshToken(result['refreshToken']);
         this.router.navigate(["home"]);
       },
       err => {

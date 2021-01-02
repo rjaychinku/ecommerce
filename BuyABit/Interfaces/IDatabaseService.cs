@@ -12,5 +12,7 @@ namespace BuyABit.Interfaces
         Task<IEnumerable<ProductSize>> GetProductSizesAsync();
         Task<bool> SaveShippingAddressAsync(BaseAddress address);
         Task<bool> CreateShippingAddressAsync(ShippingAddress shippingAddress);
+
+        bool UpdateUser(ApplicationUser user);
     }
 }

@@ -27,12 +27,12 @@ namespace BuyABit
 
             try
             {
-                Log.Information("Application Starting Up");
+                Log.Information("Application Starting Up...");
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "The application failed to start correctly.");
+                Log.Fatal(ex, "The application failed to start up.");
             }
             finally
             {
