@@ -1,34 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { IProduct } from '../Interfaces/IProduct';
-import { ProductService } from '../shared/product.service';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ICartProduct } from '../Interfaces/ICartProduct';
-import { IProductSize } from '../Interfaces/IProductSize';
-import { IProductColour } from '../Interfaces/IProductColour';
-import { trigger, transition, state, style, animate, query, stagger } from '@angular/animations';
+import { Component, OnInit } from "@angular/core";
+import { IProduct } from "../Interfaces/IProduct";
+import { ProductService } from "../shared/product.service";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { ICartProduct } from "../Interfaces/ICartProduct";
+import { IProductSize } from "../Interfaces/IProductSize";
+import { IProductColour } from "../Interfaces/IProductColour";
+import {
+  trigger,
+  transition,
+  state,
+  style,
+  animate,
+  query,
+  stagger,
+} from "@angular/animations";
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css'],
-  animations: [    
-      trigger('fadeInOut', [
-      state('void', style({
-        opacity: 0
-      })),
-      transition('void <=> *', animate(1000)),
-    ])
-]
+  selector: "app-product",
+  templateUrl: "./product.component.html",
+  styleUrls: ["./product.component.css"],
+  animations: [
+    trigger("fadeInOut", [
+      state(
+        "void",
+        style({
+          opacity: 0,
+        })
+      ),
+      transition("void <=> *", animate(1000)),
+    ]),
+  ],
 })
 export class ProductComponent implements OnInit {
-
   products: IProduct[] = [];
   sizes: IProductSize[] = [];
   colours: IProductColour[] = [];
   sharedCartProduct: IProduct[] = [];
   cartproducts: IProduct[] = [];
-  totalCost : number;
+  totalCost: number = 0;
   selectedSizeValue = {};
   selectedColourValue = {};
 
@@ -41,65 +51,74 @@ export class ProductComponent implements OnInit {
     this.createAddress();
   }
 
-  getAllProducts() {
-    console.log("calling get products...");
-    this.productService.getAll().subscribe((result) => {
-      console.log("result was: " + result);
-      this.products = result;
+  async getAllProducts() {
+    try {
+      console.log("calling get products...");
+      this.products = await this.productService.getAll();
+      console.log("result was: " + this.products);
 
       //share
-      this.productService.getMessage.subscribe(messageProduct => {
-       // this.sharedCartProduct = messageProduct;
+      this.productService.getMessage.subscribe((messageProduct) => {
         this.cartproducts = messageProduct;
       });
+    } catch (err) {
+      console.error(err);
+    }
 
-    }, error => console.error(error));
   }
 
-  getProductSizes() {
-    console.log("calling get product sizes...");
-    this.productService.getAllSizes().subscribe((result) => {
+  async getProductSizes() {
+
+    try {
+      console.log("calling get product sizes...");
+      const result = await this.productService.getAllSizes();
       console.log("result was: " + result);
       this.sizes = result;
       this.selectedSizeValue = this.sizes.find(c => c.name.toLowerCase() === "size");
-
-    }, error => console.error(error));
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  getProductColours() {
-    console.log("calling get product colours...");
-    this.productService.getAllColours().subscribe((result) => {
-      console.log("result was: " + result);
+  async getProductColours() {
+    try {
+      console.log("calling get product colours...");
+      let result = await this.productService.getAllColours();
       this.colours = result;
-      this.selectedColourValue = this.colours.find(c => c.name.toLowerCase() === "colour");
-
-    }, error => console.error(error));
+      this.selectedColourValue = this.colours.find((c) => c.name.toLowerCase() === "colour");
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   createAddress() {
     console.log("calling create Adrress...");
-    this.productService.getCountries().subscribe((result) => {
-      console.log("countries result was: " + result);
-      var r = result;
-
-    }, error => console.error(error));
+    this.productService.getCountries().subscribe(
+      (result) => {
+        console.log("countries result was: " + result);
+        var r = result;
+      },
+      (error) => console.error(error)
+    );
   }
 
   addToCart(cartproduct: IProduct) {
-    const newCartProduct = Object.assign({}, cartproduct)
+    const newCartProduct = Object.assign({}, cartproduct);
     //const tr = JSON.parse(JSON.stringify(cartproduct)); //deep copy
     var arrSize = this.cartproducts.push(newCartProduct);
-    this.totalCost += newCartProduct.price;
+    this.totalCost += Number(newCartProduct.price);
 
     this.productService.setMessage(this.cartproducts);
-    console.log('ADD: The cart has ' + arrSize + ' items in it.');
+    console.log("ADD: The cart has " + arrSize + " items in it.");
   }
 
   removeFromCart(cartproduct: IProduct) {
-    this.cartproducts =  this.cartproducts.filter(c => c !== cartproduct);
+    this.cartproducts = this.cartproducts.filter((c) => c !== cartproduct);
     this.totalCost -= cartproduct.price;
     this.productService.setMessage(this.cartproducts);
-    console.log('DELETE: The cart has ' + this.cartproducts.length + ' items in it now.');
+    console.log(
+      "DELETE: The cart has " + this.cartproducts.length + " items in it now."
+    );
   }
 
   onSelectedSizeChange(theeproduct: IProduct, size: any) {
@@ -115,6 +134,6 @@ export class ProductComponent implements OnInit {
     console.log(colour.name);
     console.log(theeproduct.name);
     // remember to update the selectedValue
-    theeproduct.colour  = colour.name;
+    theeproduct.colour = colour.name;
   }
 }

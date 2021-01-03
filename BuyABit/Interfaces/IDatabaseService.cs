@@ -13,6 +13,6 @@ namespace BuyABit.Interfaces
         Task<bool> SaveShippingAddressAsync(BaseAddress address);
         Task<bool> CreateShippingAddressAsync(ShippingAddress shippingAddress);
 
-        bool UpdateUser(ApplicationUser user);
+        Task<bool> UpdateUser(ApplicationUser user);
     }
 }

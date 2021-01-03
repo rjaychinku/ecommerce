@@ -7,9 +7,13 @@ import { environment } from './environments/environment';
 export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
 }
+export function getUserIdleSeconds() {
+  return Number(3600);
+}
 
 const providers = [
-  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
+  { provide: 'USER_IDLE_SECONDS', useFactory: getUserIdleSeconds, deps: [] }
 ];
 
 if (environment.production) {

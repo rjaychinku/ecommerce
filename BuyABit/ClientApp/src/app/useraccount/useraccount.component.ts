@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { UseraccountService } from '../shared/useraccount.service'
 import { Router } from '@angular/router';
+import { BnNgIdleService } from 'bn-ng-idle';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-useraccount',
@@ -9,23 +11,28 @@ import { Router } from '@angular/router';
 })
 export class UseraccountComponent implements OnInit {
 
-  constructor(public useraccountService: UseraccountService, private router: Router) { }
+  private static readonly USER_IDLE_SECONDS = 'USER_IDLE_SECONDS';
+
+  constructor(private useraccountService: UseraccountService, private router: Router
+              ,private bnIdle: BnNgIdleService
+              ,@Inject(UseraccountComponent.USER_IDLE_SECONDS) private userIdleSeconds: number) { }
 
   loginFormModel = {
     UserName: '',
     Password: ''
   }
 
-  ngOnInit() {
+  private ngOnInit() {
     this.useraccountService.registrationFormModel.reset();
     this.useraccountService.loginFormModel.reset();
   }
 
-  onLoginSubmit() {
-    console.log("ckikced!");
+  private onLoginSubmit() {
+
     this.useraccountService.login().subscribe(
       (result: any) => {
         console.log("succeeded Login!!");
+        this.startTrackingIdleUser();
         this.useraccountService.saveToken(result['token']);
         this.useraccountService.saveRefreshToken(result['refreshToken']);
         this.router.navigate(["home"]);
@@ -57,4 +64,20 @@ export class UseraccountComponent implements OnInit {
       }
     );
   }
+
+  startTrackingIdleUser() {
+    console.log("started Tracking Idle User at " + this.userIdleSeconds + " secs");
+    this.bnIdle.startWatching(this.userIdleSeconds).subscribe((isTimedOut: boolean) => {
+      if (isTimedOut) {
+        this.bnIdle.stopTimer(); 
+        this.useraccountService.logout();
+        console.log("stopped Tracking Idle User....");
+      }
+      else
+      {
+        console.log('not timed out yet...')
+      }
+    });
+  }
+
 }

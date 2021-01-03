@@ -10,19 +10,18 @@ import { IProductSize } from '../Interfaces/IProductSize';
   providedIn: 'root'
 })
 export class ProductService {
-  cartProduct: IProduct[] = [];
-  private messageProduct:  BehaviorSubject<IProduct[]> = new BehaviorSubject<IProduct[]>(this.cartProduct);
-  getMessage = this.messageProduct.asObservable();
+  //cartProduct: IProduct[] = [];
+  private messageProduct: BehaviorSubject<IProduct[]> = new BehaviorSubject<IProduct[]>([]);
+  public getMessage = this.messageProduct.asObservable();
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string)
-  {
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
   }
 
   getAll() {
-    return this.http.get<IProduct[]>(this.baseUrl + 'Product/GetAll');
+    return this.http.get<IProduct[]>(this.baseUrl + 'Product/GetAll').toPromise();
   }
 
-   createAddress()  {
+  createAddress() {
     var r = this.http.post<any>(this.baseUrl + 'Checkout/CreateAddress/', null);
     return r;
   }
@@ -33,14 +32,14 @@ export class ProductService {
   }
 
   getAllSizes() {
-    return this.http.get<IProductSize[]>(this.baseUrl + 'Product/GetAllSizes');
+    return this.http.get<IProductSize[]>(this.baseUrl + 'Product/GetAllSizes').toPromise();;
   }
 
   getAllColours() {
-    return this.http.get<IProductColour[]>(this.baseUrl + 'Product/GetAllColours');
+    return this.http.get<IProductColour[]>(this.baseUrl + 'Product/GetAllColours').toPromise();;
   }
 
-  setMessage(cartItems: IProduct[] ) {
+  setMessage(cartItems: IProduct[]) {
     this.messageProduct.next(cartItems);
   }
 }

@@ -47,10 +47,10 @@ namespace BuyABit.Extensions
             throw new System.NotImplementedException();
         }
 
-        public bool UpdateUser(ApplicationUser user)
+        public async Task<bool> UpdateUser(ApplicationUser user)
         {
             _dbcontext.Update(user);
-            return _dbcontext.SaveChanges() > 0;
+            return await _dbcontext.SaveChangesAsync() > 0;
         }
     }
 }

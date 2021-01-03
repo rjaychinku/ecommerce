@@ -8,9 +8,14 @@ var environment_1 = require("./environments/environment");
 function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
 }
+
+function getUserIdleSeconds() {
+    return Number(3600);
+}
 exports.getBaseUrl = getBaseUrl;
 var providers = [
-    { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
+  { provide: 'USER_IDLE_SECONDS', useFactory: getUserIdleSeconds, deps: [] }
 ];
 if (environment_1.environment.production) {
     core_1.enableProdMode();

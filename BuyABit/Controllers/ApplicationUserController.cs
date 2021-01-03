@@ -78,7 +78,7 @@ namespace BuyABit.Controllers
                     string token = _identityService.GenerateJwtToken(user.Id, user.UserName, _appSettings);
                     user.RefreshToken = refreshToken;
                     user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
-                    _databaseService.UpdateUser(user);
+                    await _databaseService.UpdateUser(user);
 
                     return Ok(new LoginResponseModelDTO
                     {
@@ -119,7 +119,8 @@ namespace BuyABit.Controllers
             string newRefreshToken = _identityService.GenerateRefreshToken();
             string newAccessToken = _identityService.GenerateJwtToken(user.Id, user.UserName, _appSettings);
             user.RefreshToken = newRefreshToken;
-            _databaseService.UpdateUser(user);
+            await _databaseService.UpdateUser(user);
+
             return new ObjectResult(new
             {
                 accessToken = newAccessToken,
@@ -131,16 +132,16 @@ namespace BuyABit.Controllers
         [Route(nameof(Revoke))]
         public async Task<IActionResult> Revoke(string nothing)
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            ApplicationUser user = await _userManager.FindByEmailAsync(User.Identity.Name);
 
             if (user == null) return BadRequest();
             user.RefreshToken = null;
             _databaseService.UpdateUser(user);
+
             return NoContent();
         }
 
-        [Authorize]
-        [HttpGet]
+        [HttpGet, Authorize]
         [Route(nameof(GetProfile))]
         //GET : /ApplicationUser/GetProfile
         public async Task<ActionResult<LoginResponseModelDTO>> GetProfile()

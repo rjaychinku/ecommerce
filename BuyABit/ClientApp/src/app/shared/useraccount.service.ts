@@ -4,15 +4,18 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UseraccountService {
 
+  private static readonly BASE_URL = 'BASE_URL';
+
   constructor(private router: Router, private formbuilder: FormBuilder
-              ,private http: HttpClient, @Inject('BASE_URL') public baseUrl: string
-              ,private JwtHelperService: JwtHelperService) {
+    , private http: HttpClient, @Inject(UseraccountService.BASE_URL) public baseUrl: string
+    , private JwtHelperService: JwtHelperService, private bnIdle : BnNgIdleService) {
   }
 
   registrationFormModel = this.formbuilder.group({
@@ -70,29 +73,20 @@ export class UseraccountService {
 
   RefreshToken(tokens: any) {
     return this.http.post<any>(this.baseUrl + 'ApplicationUser/Refresh'
-                , tokens
-                , {
-                    headers: new HttpHeaders({ "Content-Type": "application/json" })
-                  }
+      , tokens
+      , {
+        headers: new HttpHeaders({ "Content-Type": "application/json" })
+      }
     );
   }
 
-  RevokeToken() {
-    this.http.post(this.baseUrl + 'ApplicationUser/Revoke', "dddd")
-      .subscribe(
-        (result: any) => {
-          console.log("revoked token!!");
-          //this.stopRefreshTokenTimer();
-          //this.user.next(null);
-          this.removeToken();
-          this.removeRefreshToken();
-        },
-        err => {
-          console.log(err);
-        }
-      );
-
-    this.goToLoginPage();
+  async RevokeToken() {
+   try {
+      const result = await this.http.post(this.baseUrl + 'ApplicationUser/Revoke', "dddd").toPromise();
+      console.log("Revoked token!!");
+   } catch (err) {
+     console.log(err);
+   }
   }
 
   public getToken() {
@@ -112,12 +106,12 @@ export class UseraccountService {
   }
 
   isAuthenticated() {
-      const token: string =  this.getToken();
+    let token = this.getToken();
 
-      if (token && !this.JwtHelperService.isTokenExpired(token)) {
-        return true;
-      }    
-      return false;
+    if (token && !this.JwtHelperService.isTokenExpired(token)) {
+      return true;
+    }
+    return false;
   }
 
   saveToken(token: string) {
@@ -133,35 +127,10 @@ export class UseraccountService {
   }
 
   logout() {
-    //this.http.post<any>(`${this.baseUrl}/users/revoke-token`, {}, { withCredentials: true }).subscribe();
-    return this.RevokeToken();
-  }
-
-  // refreshToken() {
-  //     return this.http.post<any>(`${this.baseUrl}/users/refresh-token`, {}, { withCredentials: true })
-  //         .pipe(map((user) => {
-  //             this.userSubject.next(user);
-  //             this.startRefreshTokenTimer();
-  //             return user;
-  //         }));
-  // }
-
-  // helper methods
-
-  private refreshTokenTimeout;
-
-  // private startRefreshTokenTimer() {
-  //     // parse json object from base64 encoded jwt token
-  //     const jwtToken = JSON.parse(atob(this.getToken().split('.')[1]));
-
-  //     // set a timeout to refresh the token a minute before it expires
-  //     const expires = new Date(jwtToken.exp * 1000);
-  //     const timeout = expires.getTime() - Date.now() - (60 * 1000);
-  //     this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
-  // }
-
-  private stopRefreshTokenTimer() {
-    clearTimeout(this.refreshTokenTimeout);
+    this.bnIdle.stopTimer(); 
+    this.removeToken();
+    this.removeRefreshToken();
+    this.router.navigate(['account']);
   }
 
   setFormValues() {
