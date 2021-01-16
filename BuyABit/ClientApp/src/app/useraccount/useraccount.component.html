@@ -1,101 +1,160 @@
 <div class="login-box">
-      <ul class="nav nav-tabs nav-justified" id="signupTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#login" role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="signup-tab" data-toggle="tab" href="#create" role="tab" aria-controls="signup" aria-selected="false">Sign Up</a>
-        </li>
-    </ul>
-      <div id="signupTabContent" class="tab-content">
-        <div class="tab-pane fade show active" id="login">
-          <!--LOGIN START-->
-          <div class="" >
-               
-                <form [formGroup]="useraccountService.loginFormModel" autocomplete="off" (ngSubmit)="onLoginSubmit()">
-                  <h4 class="text-center">Sign in using</h4>
-                  <div class="social-media-box">
-              
-                      <button type="button" class="btn btn-social-icon btn-outline-twitter"><i class="fa fa-twitter"></i></button>
+  <ul class="nav nav-tabs nav-justified" id="signupTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#login" role="tab" aria-controls="signin"
+        aria-selected="true">Sign In</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="signup-tab" data-toggle="tab" href="#create" role="tab" aria-controls="signup"
+        aria-selected="false">Sign Up</a>
+    </li>
+  </ul>
+  <div id="signupTabContent" class="tab-content">
+    <div class="tab-pane fade show active" id="login">
+      <!--LOGIN START-->
+      <div class="">
+        <form [formGroup]="useraccountService.loginFormModel" autocomplete="off" (ngSubmit)="onLoginSubmit()">
+          <h4 class="text-center">Sign in using</h4>
+          <div class="social-media-box">
+            <button type="button" class="btn btn-social-icon btn-outline-twitter">
+              <i class="fa fa-twitter"></i>
+            </button>
 
-                      <button type="button" class="btn btn-social-icon btn-outline-facebook"><i class="fa fa-facebook"></i></button>
+            <button type="button" class="btn btn-social-icon btn-outline-facebook">
+              <i class="fa fa-facebook"></i>
+            </button>
 
-                      <button type="button" class="btn btn-social-icon btn-outline-google"><i class="fa fa-google"></i></button>
-          
-                  </div>
-                  <h5 class="text-center">Or</h5>
-                  <div class="line" ></div>  
-                  <div class="form-group required">
-                    <!--<label>Email</label>-->
-                    <input type="email" class="form-control" formControlName="Email" placeholder="Email">
-                    <label class="text-danger" *ngIf="useraccountService.loginFormModel.get('Email').touched && useraccountService.loginFormModel.get('Email').errors?.required">This field is mandatory.</label>
-                  </div>
-
-                  <div class="form-group required">
-                    <!--<label>Password</label>-->
-                    <input type="password" class="form-control" formControlName="Password" placeholder="Password">
-                    <label class="text-danger" *ngIf="useraccountService.loginFormModel.get('Password').touched && useraccountService.loginFormModel.get('Password').errors?.required">This field is mandatory.</label>
-                    <label class="text-danger" *ngIf="useraccountService.loginFormModel.get('Password').touched && useraccountService.loginFormModel.get('Password').errors?.minlength">Minimum 4 characters required.</label>
-                    <div class="text-right"><a href="">Forgot password?</a></div>
-                  </div>
-
-                  <div class="form-row">
-                    <div class="form-group col-md-8 offset-md-2">
-                      <button id= "loginregister" type="submit" class="btn btn-lg btn-block" [disabled]="!useraccountService.loginFormModel.valid">Sign In</button>
-                    </div>
-                  </div>
-                </form>
-             
-           
+            <button type="button" class="btn btn-social-icon btn-outline-google">
+              <i class="fa fa-google"></i>
+            </button>
           </div>
-          <!--LOGIN END-->
-        </div>
-        <div class="tab-pane fade" id="create">
-          <!--REG. START-->
-          <div class="">
-
-                <form [formGroup]="useraccountService.registrationFormModel" autocomplete="off" (ngSubmit)="onRegistrationSubmit()">
-                  <h4 class="text-center">Sign up using</h4>
-                  <div class="social-media-box">              
-                    <button type="button" class="btn btn-social-icon btn-outline-twitter"><i class="fa fa-twitter"></i></button>
-                    <button type="button" class="btn btn-social-icon btn-outline-facebook"><i class="fa fa-facebook"></i></button>
-                    <button type="button" class="btn btn-social-icon btn-outline-google"><i class="fa fa-google"></i></button>
-                </div>
-                <h5 class="text-center">Or</h5>
-                <div class="line" ></div>  
-                  <div class="form-group required">
-                    <input type="email" class="form-control" formControlName="Email" placeholder="Email">
-                    <label class="text-danger" *ngIf="useraccountService.registrationFormModel.get('Email').touched && useraccountService.registrationFormModel.get('Email').errors?.email">Invalid email address.</label>
-                    <label class="text-danger" *ngIf="useraccountService.registrationFormModel.get('Email').touched && useraccountService.registrationFormModel.get('Email').errors?.required">This field is mandatory.</label>
-                  </div>
-
-                  <div class="form-group">
-                    <input class="form-control" formControlName="FullName" placeholder="Full Name (Optional)">
-                  </div>
-                  <div formGroupName="Passwords">
-                    <div class="form-group required">
-                      <input type="password" class="form-control" formControlName="Password" placeholder="Password">
-                      <label class="text-danger" *ngIf="useraccountService.registrationFormModel.get('Passwords.Password').touched && useraccountService.registrationFormModel.get('Passwords.Password').errors?.required">This field is mandatory.</label>
-                      <label class="text-danger" *ngIf="useraccountService.registrationFormModel.get('Passwords.Password').touched && useraccountService.registrationFormModel.get('Passwords.Password').errors?.minlength">Minimum 4 characters required.</label>
-                    </div>
-                    <div class="form-group required">
-                      <input type="password" class="form-control" formControlName="ConfirmPassword" placeholder="Confrim Password">
-                      <label class="text-danger" *ngIf="useraccountService.registrationFormModel.get('Passwords.ConfirmPassword').touched && useraccountService.registrationFormModel.get('Passwords.ConfirmPassword').errors?.required">This field is mandatory.</label>
-                      <label class="text-danger" *ngIf="useraccountService.registrationFormModel.get('Passwords.ConfirmPassword').touched && useraccountService.registrationFormModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">Confirm Password does not match.</label>
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-8 offset-md-2">
-                      <button id= "loginregister" type="submit" class="btn btn-lg btn-block" [disabled]="!useraccountService.registrationFormModel.valid">Sign Up</button>
-                    </div>
-                  </div>
-                </form>
-  
+          <h5 class="text-center">Or</h5>
+          <div class="line"></div>
+          <div class="form-group required">
+            <!--<label>Email</label>-->
+            <input type="email" class="form-control" formControlName="Email" placeholder="Email" />
+            <label class="text-danger" *ngIf="
+                useraccountService.loginFormModel.get('Email').touched &&
+                useraccountService.loginFormModel.get('Email').errors?.required
+              ">This field is mandatory.</label>
           </div>
-          <!--REG.END-->
-        </div>
 
+          <div class="form-group required">
+            <!--<label>Password</label>-->
+            <input type="password" class="form-control" formControlName="Password" placeholder="Password" />
+            <label class="text-danger" *ngIf="
+                useraccountService.loginFormModel.get('Password').touched &&
+                useraccountService.loginFormModel.get('Password').errors
+                  ?.required
+              ">This field is mandatory.</label>
+            <label class="text-danger" *ngIf="
+                useraccountService.loginFormModel.get('Password').touched &&
+                useraccountService.loginFormModel.get('Password').errors
+                  ?.minlength
+              ">Minimum 4 characters required.</label>
+            <div class="text-right"><a href="">Forgot password?</a></div>
+          </div>
 
+          <div class="form-row">
+            <div class="form-group col-md-8 offset-md-2">
+              <button id="loginregister" type="submit" class="btn btn-lg btn-block"
+                [disabled]="!useraccountService.loginFormModel.valid">
+                Sign In
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--LOGIN END-->
+    </div>
+    <div class="tab-pane fade" id="create">
+      <!--REG. START-->
+      <div class="">
+        <form [formGroup]="useraccountService.registrationFormModel" autocomplete="off"
+          (ngSubmit)="onRegistrationSubmit()">
+          <h4 class="text-center">Sign up using</h4>
+          <div class="social-media-box">
+            <button type="button" class="btn btn-social-icon btn-outline-twitter">
+              <i class="fa fa-twitter"></i>
+            </button>
+            <button type="button" class="btn btn-social-icon btn-outline-facebook">
+              <i class="fa fa-facebook"></i>
+            </button>
+            <button type="button" class="btn btn-social-icon btn-outline-google">
+              <i class="fa fa-google"></i>
+            </button>
+          </div>
+          <h5 class="text-center">Or</h5>
+          <div class="line"></div>
+          <div class="form-group required">
+            <input type="email" class="form-control" formControlName="Email" placeholder="Email" />
+            <label class="text-danger" *ngIf="
+                useraccountService.registrationFormModel.get('Email').touched &&
+                useraccountService.registrationFormModel.get('Email').errors
+                  ?.email
+              ">Invalid email address.</label>
+            <label class="text-danger" *ngIf="
+                useraccountService.registrationFormModel.get('Email').touched &&
+                useraccountService.registrationFormModel.get('Email').errors
+                  ?.required
+              ">This field is mandatory.</label>
+          </div>
+
+          <div class="form-group">
+            <input class="form-control" formControlName="FullName" placeholder="Full Name (Optional)" />
+          </div>
+          <div formGroupName="Passwords">
+            <div class="form-group required">
+              <input type="password" class="form-control" formControlName="Password" placeholder="Password" />
+              <label class="text-danger" *ngIf="
+                  useraccountService.registrationFormModel.get(
+                    'Passwords.Password'
+                  ).touched &&
+                  useraccountService.registrationFormModel.get(
+                    'Passwords.Password'
+                  ).errors?.required
+                ">This field is mandatory.</label>
+              <label class="text-danger" *ngIf="
+                  useraccountService.registrationFormModel.get(
+                    'Passwords.Password'
+                  ).touched &&
+                  useraccountService.registrationFormModel.get(
+                    'Passwords.Password'
+                  ).errors?.minlength
+                ">Minimum 4 characters required.</label>
+            </div>
+            <div class="form-group required">
+              <input type="password" class="form-control" formControlName="ConfirmPassword"
+                placeholder="Confrim Password" />
+              <label class="text-danger" *ngIf="
+                  useraccountService.registrationFormModel.get(
+                    'Passwords.ConfirmPassword'
+                  ).touched &&
+                  useraccountService.registrationFormModel.get(
+                    'Passwords.ConfirmPassword'
+                  ).errors?.required
+                ">This field is mandatory.</label>
+              <label class="text-danger" *ngIf="
+                  useraccountService.registrationFormModel.get(
+                    'Passwords.ConfirmPassword'
+                  ).touched &&
+                  useraccountService.registrationFormModel.get(
+                    'Passwords.ConfirmPassword'
+                  ).errors?.passwordMismatch
+                ">Confirm Password does not match.</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8 offset-md-2">
+              <button id="loginregister" type="submit" class="btn btn-lg btn-block"
+                [disabled]="!useraccountService.registrationFormModel.valid">
+                Sign Up
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--REG.END-->
+    </div>
   </div>
 </div>
-

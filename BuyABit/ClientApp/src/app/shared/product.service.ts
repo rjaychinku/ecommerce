@@ -5,38 +5,38 @@ import { ICartProduct } from '../Interfaces/ICartProduct';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { IProductColour } from '../Interfaces/IProductColour';
 import { IProductSize } from '../Interfaces/IProductSize';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  //cartProduct: IProduct[] = [];
-  private messageProduct: BehaviorSubject<IProduct[]> = new BehaviorSubject<IProduct[]>([]);
+
+  private messageProduct = new BehaviorSubject<IProduct[]>([]);
   public getMessage = this.messageProduct.asObservable();
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
   }
 
-  getAll() {
+  getAll(): Promise<IProduct[]> {
     return this.http.get<IProduct[]>(this.baseUrl + 'Product/GetAll').toPromise();
   }
-
+ 
   createAddress() {
     var r = this.http.post<any>(this.baseUrl + 'Checkout/CreateAddress/', null);
     return r;
   }
 
   getCountries() {
-    var r = this.http.get<any>(this.baseUrl + 'Checkout/GetCountries');
-    return r;
+    return this.http.get<any>(this.baseUrl + 'Checkout/GetCountries');
   }
 
-  getAllSizes() {
-    return this.http.get<IProductSize[]>(this.baseUrl + 'Product/GetAllSizes').toPromise();;
+  getAllSizes(): Promise<IProductSize[]> {
+    return this.http.get<IProductSize[]>(this.baseUrl + 'Product/GetAllSizes').toPromise();
   }
 
-  getAllColours() {
-    return this.http.get<IProductColour[]>(this.baseUrl + 'Product/GetAllColours').toPromise();;
+  getAllColours(): Promise<IProductColour[]> {
+    return this.http.get<IProductColour[]>(this.baseUrl + 'Product/GetAllColours').toPromise();
   }
 
   setMessage(cartItems: IProduct[]) {

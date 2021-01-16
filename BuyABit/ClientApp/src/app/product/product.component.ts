@@ -68,7 +68,6 @@ export class ProductComponent implements OnInit {
   }
 
   async getProductSizes() {
-
     try {
       console.log("calling get product sizes...");
       const result = await this.productService.getAllSizes();
@@ -114,7 +113,7 @@ export class ProductComponent implements OnInit {
 
   removeFromCart(cartproduct: IProduct) {
     this.cartproducts = this.cartproducts.filter((c) => c !== cartproduct);
-    this.totalCost -= cartproduct.price;
+    this.totalCost -= Number(cartproduct.price);
     this.productService.setMessage(this.cartproducts);
     console.log(
       "DELETE: The cart has " + this.cartproducts.length + " items in it now."
@@ -122,17 +121,11 @@ export class ProductComponent implements OnInit {
   }
 
   onSelectedSizeChange(theeproduct: IProduct, size: any) {
-    // do something else with the value
-    console.log(size.name);
-    console.log(theeproduct.name);
     // remember to update the selectedValue
     theeproduct.size = size.name;
   }
 
   onSelectedColourChange(theeproduct: IProduct, colour: any) {
-    // do something else with the value
-    console.log(colour.name);
-    console.log(theeproduct.name);
     // remember to update the selectedValue
     theeproduct.colour = colour.name;
   }

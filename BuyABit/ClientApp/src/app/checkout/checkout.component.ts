@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../shared/product.service';
-import { ICartProduct } from '../Interfaces/ICartProduct';
 import { UseraccountService } from '../shared/useraccount.service';
 import { IProduct } from '../Interfaces/IProduct';
 
@@ -12,18 +11,18 @@ import { IProduct } from '../Interfaces/IProduct';
 export class CheckoutComponent implements OnInit {
   sharedCartProduct: IProduct[] = [];
 
-  constructor(private productService: ProductService, public useraccountService: UseraccountService,) { }
+  constructor(private productService: ProductService, private useraccountService: UseraccountService) { }
 
   ngOnInit() {
     this.useraccountService.checkoutFormModel.reset();
 
-    this.productService.getMessage.subscribe(messageProduct  => {
+    this.productService.getMessage.subscribe(messageProduct => {
       this.sharedCartProduct = messageProduct;
     });
   }
 
   newMessage() {
-      let cartProduct: IProduct = {
+    let cartProduct: IProduct = {
       name: "Testing!!!",
       description: "A teswt desc",
       price: 76,
@@ -47,12 +46,12 @@ export class CheckoutComponent implements OnInit {
       productId: "4",
       quantity: 5,
       colour: "orange"
-  };
+    };
 
-  console.log(cartProduct.name);
-  this.sharedCartProduct.push(cartProduct);
-  this.productService.setMessage( this.sharedCartProduct);
-}
+    console.log(cartProduct.name);
+    this.sharedCartProduct.push(cartProduct);
+    this.productService.setMessage(this.sharedCartProduct);
+  }
 }
 
 interface CheckoutUser {

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UseraccountService } from '../shared/useraccount.service'
 import { Router } from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle';
-import { Console } from 'console';
+
 
 @Component({
   selector: 'app-useraccount',
@@ -11,18 +11,18 @@ import { Console } from 'console';
 })
 export class UseraccountComponent implements OnInit {
 
-  private static readonly USER_IDLE_SECONDS = 'USER_IDLE_SECONDS';
+  private static readonly Application_Settings = 'Application_Settings';
 
   constructor(private useraccountService: UseraccountService, private router: Router
-              ,private bnIdle: BnNgIdleService
-              ,@Inject(UseraccountComponent.USER_IDLE_SECONDS) private userIdleSeconds: number) { }
+    , private bnIdle: BnNgIdleService
+    , @Inject(UseraccountComponent.Application_Settings) private _Application_Settings) { }
 
   loginFormModel = {
     UserName: '',
     Password: ''
   }
 
-  private ngOnInit() {
+  ngOnInit() {
     this.useraccountService.registrationFormModel.reset();
     this.useraccountService.loginFormModel.reset();
   }
@@ -66,15 +66,14 @@ export class UseraccountComponent implements OnInit {
   }
 
   startTrackingIdleUser() {
-    console.log("started Tracking Idle User at " + this.userIdleSeconds + " secs");
-    this.bnIdle.startWatching(this.userIdleSeconds).subscribe((isTimedOut: boolean) => {
+    console.log("started Tracking Idle User at " + this._Application_Settings.USER_IDLE_SECONDS + " secs");
+    this.bnIdle.startWatching(this._Application_Settings.USER_IDLE_SECONDS).subscribe((isTimedOut: boolean) => {
       if (isTimedOut) {
-        this.bnIdle.stopTimer(); 
+        this.bnIdle.stopTimer();
         this.useraccountService.logout();
         console.log("stopped Tracking Idle User....");
       }
-      else
-      {
+      else {
         console.log('not timed out yet...')
       }
     });

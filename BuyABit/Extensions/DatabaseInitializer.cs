@@ -23,7 +23,7 @@ namespace BuyABit.Extensions
 
         public void SeedDatabaseDataAsync()
         {
-          //  dbContext.Database.EnsureCreated();
+            //  dbContext.Database.EnsureCreated();
             dbContext.Database.Migrate();
             if (!dbContext.Products.Any())
             {

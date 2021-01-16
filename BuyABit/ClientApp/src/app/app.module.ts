@@ -20,11 +20,8 @@ import { UseraccountComponent } from './useraccount/useraccount.component';
 import { MycustomInterceptor } from './authentication/mycustom.interceptor';
 import { ErrorInterceptor } from './authentication/error.interceptor';
 import { AuthGuard } from './authentication/auth.guard';
-import { JwtModule } from '@auth0/angular-jwt';
+import { JwthandlerModule } from './jwthandler/jwthandler.module';
 
-export function getToken() {
-  return localStorage.getItem("token");
-}
 
 @NgModule({
   declarations: [
@@ -48,13 +45,7 @@ export function getToken() {
     //}),
     FormsModule,
     ReactiveFormsModule,
-    JwtModule.forRoot({
-      config: {
-         tokenGetter: getToken,
-        allowedDomains: ["https://localhost:5001/"],
-        disallowedRoutes: ["https://localhost:5002/"],
-      },
-    }),
+    JwthandlerModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full'},
       { path: 'counter', component: CounterComponent },

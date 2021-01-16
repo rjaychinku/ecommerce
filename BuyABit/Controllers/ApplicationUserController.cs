@@ -7,7 +7,6 @@ using BuyABit.Extensions;
 using BuyABit.Interfaces;
 using BuyABit.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -26,9 +25,9 @@ namespace BuyABit.Controllers
         private readonly IDatabaseService _databaseService;
         private readonly AppSettings _appSettings;
 
-        public ApplicationUserController(UserManager<ApplicationUser> userManager, 
+        public ApplicationUserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IMapper mapper, IIdentityService identityService, 
+            IMapper mapper, IIdentityService identityService,
             IOptions<AppSettings> appSettings, IDatabaseService databaseService)
         {
             _userManager = userManager;
@@ -83,7 +82,7 @@ namespace BuyABit.Controllers
                     return Ok(new LoginResponseModelDTO
                     {
                         Token = token,
-                        RefreshToken = refreshToken                        
+                        RefreshToken = refreshToken
                     });
                 }
                 else
@@ -93,14 +92,14 @@ namespace BuyABit.Controllers
             {
                 Log.Fatal(ex, ex.Message);
                 return BadRequest(ex);
-            }     
+            }
         }
 
         [HttpPost]
         [Route(nameof(Refresh))]
         public async Task<IActionResult> Refresh(TokenApiModelDTO tokenApiModel)
         {
-            if (tokenApiModel is null || tokenApiModel.RefreshToken == null 
+            if (tokenApiModel is null || tokenApiModel.RefreshToken == null
                 || tokenApiModel.AccessToken == null)
             {
                 return BadRequest("Invalid client request");
@@ -110,7 +109,7 @@ namespace BuyABit.Controllers
             ClaimsPrincipal principal = _identityService.GetPrincipalFromExpiredToken(accessToken, _appSettings);
             string username = principal.Identity.Name; //this is mapped to the Name claim by default
             ApplicationUser user = await _userManager.FindByEmailAsync(username);
-            
+
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
                 return BadRequest("Invalid client request");
@@ -158,7 +157,7 @@ namespace BuyABit.Controllers
                     return BadRequest("User profile is empty.");
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Log.Fatal(ex, ex.Message);
                 return BadRequest(ex);

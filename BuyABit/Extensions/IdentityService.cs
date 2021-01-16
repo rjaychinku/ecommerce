@@ -10,7 +10,7 @@ namespace BuyABit.Extensions
 {
     public class IdentityService : IIdentityService
     {
-        public string GenerateJwtToken(string userId, string username,  AppSettings appSettings)
+        public string GenerateJwtToken(string userId, string username, AppSettings appSettings)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(appSettings.JWTSecret);
