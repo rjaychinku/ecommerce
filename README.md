@@ -7,8 +7,15 @@ Angular 10 + .Net Core web api + SQL Server + Redis
 ###### UI still in progress..
 ###### Dockerization in progress..
 
-# SQLExpress
+# SQL Express
 ```
-Download here: https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+Download from: https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+
+```
+
+# Redis
+```
+Download from: https://redis.io/download
+Leave at default settings when running instance i.e. host: localhost; port: 6379
 
 ```
